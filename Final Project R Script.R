@@ -51,6 +51,9 @@ view_digit = function(read_data, observation) {
     image(temp, axes = FALSE, col = grey(seq(0, 1, length = 256)))
     
 }
+
+
+# Function with inputs of our data from #1 and the observation number
 view_digit(data,23)
 
 
