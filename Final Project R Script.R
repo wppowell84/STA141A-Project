@@ -53,7 +53,7 @@ view_digit = function(read_data, observation) {
 }
 view_digit(data,23)
 
-# Practicing git
+# Practicing git INTO THE README-EDITS
 
 
 
