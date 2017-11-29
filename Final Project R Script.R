@@ -44,19 +44,43 @@ view_digit = function(read_data, observation) {
     temp = melt(read_data[observation,])
     temp = temp$value[2:length(temp$value)]
     temp = matrix(temp, nrow = 16, ncol = 16, byrow = T)
-    rotate <- function(x) {
-        t(apply(x, 2, rev))
-    }
+        rotate <- function(x) {
+            t(apply(x, 2, rev))
+        }
     temp = rotate(temp)
     image(temp, axes = FALSE, col = grey(seq(0, 1, length = 256)))
     
 }
 
-
-# Function with inputs of our data from #1 and the observation number
-view_digit(data,23)
+view_digit(data,20)
 
 
+
+
+#3)---------------------------------------------------------------------
+
+
+# Display  graphically what each digit (0-9) looks like on average
+
+avg_digit = function(read_data) {
+        
+        rotate <- function(x) {
+            t(apply(x, 2, rev))
+        }
+    
+                nums = seq(1,9,1)
+                for (i in nums) {
+                    temp = sqldf(strwrap(sprintf("SELECT * FROM read_data WHERE V1 = '%s'",i), simplify = T))
+                    temp = as.data.table(sapply(temp,mean))[2:257]
+                    temp = melt(temp, id=1)
+                    temp = temp$V1
+                    temp = matrix(temp, nrow = 16, ncol = 16, byrow = T)
+                    temp = rotate(temp)
+                    print(image(temp, axes = FALSE, col = grey(seq(0, 1, length = 256))))
+                }
+            
+}
+avg_digit(data)
 
 
 
