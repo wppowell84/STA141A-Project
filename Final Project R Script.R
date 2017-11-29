@@ -25,6 +25,7 @@ library(zoo)
 library(bootstrap)    
 library(boot)
 library(class)
+library(matlib)
 
 
 #1)---------------------------------------------------------------------
@@ -42,20 +43,17 @@ data = read_digits("E:/Davis/STA 141A/DATA/test.txt")
 view_digit = function(read_data, observation) {
     temp = melt(read_data[observation,])
     temp = temp$value[2:length(temp$value)]
-    temp = matrix(temp, nrow = 16, ncol = 16, byrow = F)
-    	rotate = function(x) {
-		t(apply(x,2,rev))
-	}
+    temp = matrix(temp, nrow = 16, ncol = 16, byrow = T)
+    rotate <- function(x) {
+        t(apply(x, 2, rev))
+    }
     temp = rotate(temp)
     image(temp, axes = FALSE, col = grey(seq(0, 1, length = 256)))
     
 }
+view_digit(data,23)
 
-view_digit(data,1)
-
-data[[1]][1:10]
-
-
+# Practicing git
 
 
 
