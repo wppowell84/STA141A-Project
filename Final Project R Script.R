@@ -26,8 +26,6 @@ library(bootstrap)
 library(boot)
 library(class)
 library(matlib)
-
-
 #1)---------------------------------------------------------------------
 
 
@@ -35,7 +33,7 @@ read_digits = function(x) {
     txt = read.table(x)
 }
 
-data = read_digits("E:/Davis/STA 141A/DATA/test.txt")
+data = read_digits("C:/Users/layto/Desktop/Davis/Data Science/Data Sets/train.txt")
 
 
 #2)---------------------------------------------------------------------
@@ -52,7 +50,7 @@ view_digit = function(read_data, observation) {
     
 }
 
-view_digit(data,20)
+view_digit(data,131)
 
 
 
@@ -68,8 +66,11 @@ avg_digit = function(read_data) {
             t(apply(x, 2, rev))
         }
     
-                nums = seq(1,9,1)
+                nums = seq(0,9,1)
                 for (i in nums) {
+                    # I use sqldf() package for SQL query like statements. Also to get sqldf to use my i in my for loop,
+                    # I had to use sprintf and strwrap for wrapping my SQL statement string senctence to be able to
+                    # use the C-style string formatting command within the sqldf() function.
                     temp = sqldf(strwrap(sprintf("SELECT * FROM read_data WHERE V1 = '%s'",i), simplify = T))
                     temp = as.data.table(sapply(temp,mean))[2:257]
                     temp = melt(temp, id=1)
@@ -81,6 +82,17 @@ avg_digit = function(read_data) {
             
 }
 avg_digit(data)
+
+
+#4)---------------------------------------------------------------------
+
+predict_knn = function(predict, train, distance, k) {
+    # matrix of our prediction point(s) that will be calculated distance from training points
+    pred_matrix = as.matrix(predict, nrow = nrow(predict), ncol = ncol(predict), byrow = T)
+    
+    
+    
+}
 
 
 
