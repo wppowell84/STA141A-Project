@@ -94,6 +94,48 @@ predict_knn = function(predict, train, distance, k) {
     
 }
 
+#4)--William----------------------------------
+predict_knn = function(points, train, k, metric) {
+  #Set up a vector for the predicted classes
+  predictions = c(rep(NA,nrow(points)))
+  
+  #A matrix of the prediction points, excluding the class values, to use for the distance function
+  dist_mat = rbind(points,train[1:nrow(train),])[,2:257]
+  
+  #A matrix of all the distances
+  one_dist = as.matrix(dist(dist_mat,method = metric))
+  for (i in 1:nrow(points)){
+    #frequencies of the nearest classes stored in "classes"
+    classes = c(rep(0,10))
+    #Extracting distances from the matrix
+    distances = one_dist[(1+nrow(points)):nrow(one_dist),i]
+    #Finding the closest k
+    k_nearest = sort(distances)[1:k]
+    for(j in 1:k){
+      #incrementing frequencies of classes for the k-nearest neighbors
+      classes[train[which(distances==k_nearest[j]),1] + 1] = classes[train[which(distances==k_nearest[j]),1] + 1] + 1
+    }
+    #print(classes)
+    
+    #Solving ties
+    if (length(which(classes==max(classes))) > 1){
+      #choose one of the max frequency classes at random (-1 to adjust from 1:10 to 0:9)
+      predictions[i] = sample(which(classes==max(classes)),1) - 1
+    }
+    else{
+      #choose the max frequency class
+      predictions[i] = which(classes==max(classes)) - 1
+    }
+  }
+  #output the vector of predictions
+  predictions
+}
+
+#For testing the function, you can use: 
+  # >predict_knn(data[1:5,],data,100,"euclidean")
+#Or try it on the test data
+  # >predict_knn(test_data,data,90,"minkowski")
+
 
 
 
